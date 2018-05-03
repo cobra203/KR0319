@@ -29,7 +29,7 @@ int _button_process(struct button_s *button)
         case BTN_ID_PC3_PAIRING:
             if(ECT_FOCUSED == button->state.effective) {
                 focused_times++;
-                if(40 == focused_times) {
+                if(290 == focused_times) {
                     focused_times = 0;
                     real_button_press();
                     delay_ms(10000);
