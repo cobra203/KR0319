@@ -33,6 +33,7 @@
 #include <stm8s_debug.h>
 #include <real_button.h>
 #include <wihd_button.h>
+#include <power_sw.h>
 
 
 /* Private defines -----------------------------------------------------------*/
@@ -41,24 +42,25 @@
 
 static void clk_init(void)
 {
-    disableInterrupts();
-
+	CLK_DeInit();
     CLK_HSICmd(ENABLE);
     CLK_HSIPrescalerConfig(CLK_PRESCALER_HSIDIV1);
     CLK_PeripheralClockConfig(CLK_PERIPHERAL_TIMER4, ENABLE);
-
-    enableInterrupts();
+	CLK_ClockSecuritySystemEnable();//启用系统时钟安全，启用就无法关闭，直到复位   
 }
 
 void main(void)
 {
     //while(1);
-
+	disableInterrupts();
     /* init */
     clk_init();
     timer_init();
     real_button_init();
     button_init();
+	power_sw_init();
+
+	enableInterrupts();
 
     /* Infinite loop */
     while (1)

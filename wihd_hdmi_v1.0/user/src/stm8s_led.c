@@ -3,6 +3,7 @@
 
 #include <stm8s_led.h>
 #include <stm8s_timer.h>
+#include <host_pin_def.h>
 
 static void _led_bright(STM8S_LED_S *led)
 {
@@ -58,10 +59,10 @@ static void _led_doing(STM8S_LED_S *led)
 
 void stm8s_led_init(STM8S_LED_S *led)
 {
-    led->port   = GPIOC;
-    led->pin    = GPIO_PIN_4;
+    led->port   = REAL_BUTTON_GPIO;
+    led->pin    = REAL_BUTTON_PIN;
 
-    GPIO_Init(GPIOC, GPIO_PIN_4, GPIO_MODE_OUT_PP_LOW_FAST);
+    GPIO_Init(REAL_BUTTON_GPIO, REAL_BUTTON_PIN, GPIO_MODE_OUT_PP_LOW_FAST);
 
     led->set    = _led_set_attr;
     led->doing  = _led_doing;

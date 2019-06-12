@@ -7,6 +7,9 @@
 #include <button.h>
 #include <real_button.h>
 #include <wihd_button.h>
+#include <power_sw.h>
+#include <host_pin_def.h>
+#include <sys_common.h>
 
 typedef enum button_id_e
 {
@@ -20,27 +23,35 @@ static BUTTON_S button[BUTTON_NUM];
 
 int _button_process(struct button_s *button)
 {
-    static int              focused_times = 0;
+    static int focused_times = 0;
+	static int last_status;
 
     if(button->state.avtice) {
         button->state.avtice = 0;
         
         switch(button->type) {
         case BTN_ID_PC3_PAIRING:
-            if(ECT_FOCUSED == button->state.effective) {
-                focused_times++;
-                if(290 == focused_times) {
-                    focused_times = 0;
-                    real_button_press();
+			switch(button->state.effective) {
+			case ECT_LOOSE:
+				if(last_status == ECT_PRESSED) {
+					power_sw_switch();
+				}
+			case ECT_PRESSED:
+				focused_times = 0;
+                real_button_loosen();
+				break;
+			case ECT_FOCUSED:
+				focused_times++;
+				if(140 == focused_times) {
+					focused_times = 0;
+					real_button_press();
                     delay_ms(10000);
                     real_button_loosen();
-                }
-            }
-            else {
-                focused_times = 0;
-                real_button_loosen();
-            }
-            break;
+				}
+				break;
+			}
+			last_status = button->state.effective;
+			break;
         }
     }
 
@@ -51,7 +62,7 @@ void button_init(void)
 {
     int i = 0;
 
-    GPIO_Init(GPIOC, GPIO_PIN_3, GPIO_MODE_IN_PU_NO_IT);
+    GPIO_Init(WIHD_BUTTON_GPIO, WIHD_BUTTON_PIN, GPIO_MODE_IN_PU_NO_IT);
     
     for(i = 0; i < BTN_ID_BUTT; i++) {
         button[i].check_active      = button_check_active;
@@ -65,13 +76,13 @@ void button_init(void)
 
 void button_detect_input(void)
 {
-    uint8_t portc_value = 0;
     int     i = 0;
-    
-    portc_value = GPIO_ReadInputData(GPIOC);
+    uint8_t key = 0;
+
+	key = WIHD_BUTTON_IN;
     
     for(i = 0; i < BTN_ID_BUTT; i++) {
-        button[i].state.press = (~portc_value >> 3) & 0x1;
+        button[i].state.press = key ? STM_FALSE : STM_TRUE;
     }
 }
 

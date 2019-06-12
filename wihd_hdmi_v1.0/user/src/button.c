@@ -24,6 +24,7 @@ int button_check_active(BUTTON_S *button)
             }
             else if(button->state.effective && !button->state.press) {
                 button->state.effective = ECT_LOOSE;
+				button->state.avtice = 1;
             }
         }
         return button->state.avtice;

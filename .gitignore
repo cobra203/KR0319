@@ -51,7 +51,7 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-wihd_hdmi_v1.0/Debug/*
-wihd_hdmi_v1.0/settings/*
+wihd_hdmi_v1.0/settings/
+wihd_hdmi_v1.0/Debug/
 *.dep
 

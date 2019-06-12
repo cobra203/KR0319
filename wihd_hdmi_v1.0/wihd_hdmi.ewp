@@ -485,7 +485,7 @@
         </option>
         <option>
           <name>OCOutputOverride</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>OOCOutputFile</name>
@@ -1595,6 +1595,12 @@
       <name>$PROJ_DIR$\user\inc\button.h</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\user\inc\host_pin_def.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\user\inc\power_sw.h</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\user\inc\real_button.h</name>
     </file>
     <file>
@@ -1628,6 +1634,9 @@
       <name>$PROJ_DIR$\user\inc\stm8s_timer.h</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\user\inc\sys_common.h</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\user\inc\wihd_button.h</name>
     </file>
   </group>
@@ -1638,6 +1647,9 @@
     </file>
     <file>
       <name>$PROJ_DIR$\user\src\main.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\user\src\power_sw.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\user\src\real_button.c</name>
